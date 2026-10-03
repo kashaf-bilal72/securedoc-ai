@@ -39,6 +39,6 @@ if prompt := st.chat_input("Ask a question about your documents..."):
         else:
             with st.spinner("AI parh raha hai..."):
                 full_prompt = f"Answer ONLY from this document context:\n\n{doc_text[:15000]}\n\nQuestion: {prompt}"
-                response = client.models.generate_content(model='gemini-2.5-flash', contents=full_prompt)
+                response = client.models.generate_content(model='gemini-2.0-flash', contents=full_prompt)
                 st.markdown(response.text)
                 st.session_state.messages.append({"role": "assistant", "content": response.text})
