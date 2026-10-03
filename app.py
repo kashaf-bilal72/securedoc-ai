@@ -81,7 +81,7 @@ if prompt := st.chat_input("Ask a question about your documents..."):
             st.warning("Pehle koi PDF upload karo.")
         else:
             with st.spinner("AI parh raha hai..."):
-                model = genai.GenerativeModel('gemini-1.5-flash')
+                model = genai.GenerativeModel('gemini-2.5-flash')
                 full_prompt = f"Answer ONLY from this document context:\n\n{doc_text[:15000]}\n\nQuestion: {prompt}"
                 response = model.generate_content(full_prompt)
                 st.markdown(response.text)
