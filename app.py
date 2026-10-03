@@ -6,7 +6,6 @@ st.set_page_config(page_title="Chat with your Documents")
 st.title("📄 Chat with your Documents")
 
 api_key = st.sidebar.text_input("Gemini API Key (free)", type="password")
-
 if api_key:
     client = genai.Client(api_key=api_key)
 
@@ -16,7 +15,7 @@ doc_text = ""
 if uploaded_files:
     for pdf in uploaded_files:
         doc = fitz.open(stream=pdf.read(), filetype="pdf")
-        for page in doc:
+        for page in doc[:10]:
             doc_text += page.get_text()
 
 st.header("💬 Chat with your Documents")
@@ -38,7 +37,7 @@ if prompt := st.chat_input("Ask a question about your documents..."):
             st.warning("Pehle koi PDF upload karo.")
         else:
             with st.spinner("AI parh raha hai..."):
-                full_prompt = f"Answer ONLY from this document context:\n\n{doc_text[:15000]}\n\nQuestion: {prompt}"
-                response = client.models.generate_content(model='gemini-2.0-flash', contents=full_prompt)
+                full_prompt = f"Answer ONLY from this document context:\n\n{doc_text[:8000]}\n\nQuestion: {prompt}"
+                response = client.models.generate_content(model='gemini-flash-latest', contents=full_prompt)
                 st.markdown(response.text)
                 st.session_state.messages.append({"role": "assistant", "content": response.text})
